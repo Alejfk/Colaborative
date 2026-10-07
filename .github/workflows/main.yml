@@ -1,0 +1,16 @@
+name: Prueba
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: [self-hosted]
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Probar entorno local
+        run: |
+          Get-ComputerInfo | Select-Object WindowsProductName, OsArchitecture
+          whoami
+        shell: powershell
