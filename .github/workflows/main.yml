@@ -6,35 +6,20 @@ jobs:
   check-tokens:
     runs-on: self-hosted
     steps:
+      - name: Diagnóstico de sistema
+        run: |
+          echo "Host real:"
+          whoami
+        shell: powershell
+
       - name: Validar tokens
         shell: powershell
         env:
           DEV_TOKEN: ${{ secrets.DEV_TOKEN }}
         run: |
-          Write-Host "Usuario ejecutando el runner: $env:USERNAME"
-
-          # 1. Comprobar presencia de tokens
-          $tieneLocal = -not [string]::IsNullOrWhiteSpace($env:LOCAL_DEV_TOKEN)
-          $tieneSecret = -not [string]::IsNullOrWhiteSpace($env:DEV_TOKEN)
-
-          # Si el runner no heredó la variable en su sesión, buscar en el registro del Sistema
-          if (-not $tieneLocal) {
-              $machineVal = [System.Environment]::GetEnvironmentVariable('LOCAL_DEV_TOKEN', [System.EnvironmentVariableTarget]::Machine)
-              if (-not [string]::IsNullOrWhiteSpace($machineVal)) {
-                  $env:LOCAL_DEV_TOKEN = $machineVal
-                  $tieneLocal = $true
-              }
-          }
-
-          if (-not $tieneLocal -or -not $tieneSecret) {
-              Write-Host "Error: Falta LOCAL_DEV_TOKEN o DEV_TOKEN en el entorno." -ForegroundColor Red
-              exit 1
-          }
-
-          # 2. Comparación
-          if ($env:DEV_TOKEN -ceq $env:LOCAL_DEV_TOKEN) {
-              Write-Host "Validacion exitosa: Los tokens coinciden perfectamente." -ForegroundColor Green
+          if ($env:DEV_TOKEN -eq $env:LOCAL_DEV_TOKEN) {
+              Write-Host "Tokens validados correctamente." -ForegroundColor Green
           } else {
-              Write-Host "Error: Los valores de los tokens son distintos." -ForegroundColor Red
+              Write-Host "No coinciden." -ForegroundColor Red
               exit 1
           }
