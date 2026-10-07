@@ -1,23 +1,14 @@
 name: Prueba
 
 on: [push]
-defaults:
-  run:
-    shell: powershell
 
 jobs:
   check-tokens:
     runs-on: [self-hosted, windows]
     steps:
       - name: Validar tokens
-        shell: powershell
+        shell: cmd
         env:
           DEV_TOKEN: ${{ secrets.DEV_TOKEN }}
         run: |
-          # $env:LOCAL_DEV_TOKEN lo lee directamente del sistema de tu máquina
-          if ($env:DEV_TOKEN -eq $env:LOCAL_DEV_TOKEN) {
-              Write-Host "Tokens validados correctamente." -ForegroundColor Green
-          } else {
-              Write-Host "No coinciden." -ForegroundColor Red
-              exit 1
-          }
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -Command "if ($env:DEV_TOKEN -eq $env:LOCAL_DEV_TOKEN) { Write-Host 'Tokens validados correctamente.' -ForegroundColor Green } else { Write-Host 'No coinciden.' -ForegroundColor Red; exit 1 }"
