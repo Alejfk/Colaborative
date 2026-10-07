@@ -1,16 +1,28 @@
 name: Prueba
 
 on: [push]
+defaults:
+  run:
+    shell: powershell
 
 jobs:
-  build:
-    runs-on: [self-hosted]
+  comparar:
+    runs-on: [ self-hosted, windows ]
     steps:
-      - name: Checkout del código
-        uses: actions/checkout@v4
-
-      - name: Probar entorno local
+      - name: Comparar DEV_TOKEN contra LOCAL_DEV_TOKEN
+        env:
+          DEV_TOKEN: ${{ secrets.DEV_TOKEN }}
+          LOCAL_DEV_TOKEN: ${{ vars.LOCAL_DEV_TOKEN }}
         run: |
-          Get-ComputerInfo | Select-Object WindowsProductName, OsArchitecture
-          whoami
-        shell: powershell
+          # Verificación de presencia
+          if ([string]::IsNullOrEmpty($env:DEV_TOKEN) -or [string]::IsNullOrEmpty($env:LOCAL_DEV_TOKEN)) {
+              Write-Host "Uno o ambos tokens no estan definidos en el entorno." -ForegroundColor Yellow
+          }
+
+          # Comparación de cadenas
+          if ($env:DEV_TOKEN -eq $env:LOCAL_DEV_TOKEN) {
+              Write-Host "Los tokens coinciden." -ForegroundColor Green
+          } else {
+              Write-Host "Los tokens NO coinciden." -ForegroundColor Red
+              exit 1
+          }
