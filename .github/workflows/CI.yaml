@@ -18,10 +18,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Registrar la rama en el README
         run: |
-          BRANCH=$(git log -1 --pretty=%B | grep 'Merge pull request' | sed -E 's#.*from [^/]+/##')
-          BRANCH=${BRANCH:-${{ github.head_ref || github.ref_name }}}
-          echo "- Añadida feature: $BRANCH" >> README.md
-                - name: Commit y push del README
+              BRANCH=$(git log -1 --pretty=%B | grep 'Merge pull request' | sed -E 's#.*from [^/]+/##')
+              BRANCH=${BRANCH:-${{ github.head_ref || github.ref_name }}}
+              echo "- Añadida feature: $BRANCH" >> README.md
+      - name: Commit y push del README
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
