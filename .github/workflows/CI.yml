@@ -16,11 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.ADMIN_PAT }}
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
-        
       - name: Registrar la rama en el README
         run: |
           BRANCH=$(git log -1 --pretty=%B | grep 'Merge pull request' | sed -E 's#.*from [^/]+/##')
