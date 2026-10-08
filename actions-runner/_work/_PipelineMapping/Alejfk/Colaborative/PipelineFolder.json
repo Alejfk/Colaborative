@@ -1,0 +1,12 @@
+﻿{
+  "repositoryName": "Alejfk/Colaborative",
+  "pipelineDirectory": "Colaborative",
+  "workspaceDirectory": "Colaborative\\Colaborative",
+  "repositories": {
+    "Alejfk/Colaborative": {
+      "repositoryPath": "Colaborative\\Colaborative",
+      "lastRunOn": "10/07/2026 13:06:32 +02:00"
+    }
+  },
+  "lastRunOn": "10/07/2026 14:01:06 +02:00"
+}
