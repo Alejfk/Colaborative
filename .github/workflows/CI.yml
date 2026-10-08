@@ -18,9 +18,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Registrar la rama en el README
         run: |
-              BRANCH=$(git log -1 --pretty=%B | grep 'Merge pull request' | sed -E 's#.*from [^/]+/##')
-              BRANCH=${BRANCH:-${{ github.head_ref || github.ref_name }}}
-              echo "- Añadida feature: $BRANCH" >> README.md
+          BRANCH=$(git log -1 --pretty=%B | grep 'Merge pull request' | sed -E 's#.*from [^/]+/##')
+          BRANCH=${BRANCH:-${{ github.head_ref || github.ref_name }}}
+          echo "- Añadida feature: $BRANCH" >> README.md
       - name: Commit y push del README
         run: |
           git config user.name "github-actions[bot]"
@@ -28,7 +28,6 @@ jobs:
           git add README.md
           git commit -m "docs: registrar rama" || echo "Sin cambios que commitear"
           git push || echo "Nada que subir"
-
 
   validate-dev:
     needs: update-readme
@@ -41,8 +40,8 @@ jobs:
           TOKEN: ${{ secrets.DEV_TOKEN }}
         run: |
           if ($env:TOKEN -eq $env:LOCAL_DEV_TOKEN) {
-            Write-Host "CI: validacion de desarrollo correcta"
+            Write-Host 'CI: validacion de desarrollo correcta OK'
           } else {
-            Write-Host "CI: validacion fallida"
+            Write-Host 'CI: validacion fallida ERROR'
             exit 1
           }
