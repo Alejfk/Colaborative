@@ -14,7 +14,6 @@ permissions:
   contents: write
 
 jobs:
-
   bump-version:
     runs-on: ubuntu-latest
     steps:
@@ -26,15 +25,12 @@ jobs:
           FECHA=$(date '+%d/%m/%Y %H:%M')
           echo "- AppVersion-$NEXT - $FECHA" >> README.md
       - name: Commit y push del README
-
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
           git commit -m "docs: bump de versión" || echo "Sin cambios que commitear"
           git push || echo "Nada que subir"
-
-
 
   validate-prod:
     needs: bump-version
@@ -48,8 +44,8 @@ jobs:
           TOKEN: ${{ secrets.PROD_TOKEN }}
         run: |
           if ($env:TOKEN -eq $env:LOCAL_PROD_TOKEN) {
-            Write-Host "CD: validacion de produccion correcta  — listo para desplegar"
+            Write-Host 'CD: validacion de produccion correcta OK - listo para desplegar'
           } else {
-            Write-Host "CD: validacion fallida"
+            Write-Host 'CD: validacion fallida ERROR'
             exit 1
           }
