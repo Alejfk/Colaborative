@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validar entorno de producción
-        shell: windows-powershell
+        shell: powershell
         env:
           TOKEN: ${{ secrets.PROD_TOKEN }}
         run: |

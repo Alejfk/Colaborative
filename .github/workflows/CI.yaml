@@ -36,6 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validar entorno de desarrollo
+        shell: powershell
         env:
           TOKEN: ${{ secrets.DEV_TOKEN }}
         run: |
